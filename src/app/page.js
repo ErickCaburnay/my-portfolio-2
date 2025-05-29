@@ -5,7 +5,9 @@ import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function Portfolio() {
+import Portfolio from "@/components/Portfolio";
+
+export default function Homepage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const portfolioContentRef = useRef(null);
 
@@ -35,20 +37,20 @@ export default function Portfolio() {
       });
     });
 
-    // Project cards animation
-    gsap.utils.toArray('.box').forEach((box, i) => {
+    // Service boxes animation - slide in from bottom
+    gsap.utils.toArray('.services .box').forEach((box) => {
       gsap.from(box, {
         opacity: 0,
-        x: i % 2 === 0 ? -100 : 100,
+        y: 100,
         duration: 1,
         scrollTrigger: {
           trigger: box,
-          start: "top 80%",
-          end: "top 20%",
-          scrub: 1
+          start: "top 90%",
+          toggleActions: "play none none reverse"
         }
       });
     });
+
 
     // Portfolio items animation
     gsap.utils.toArray('.row').forEach((row, i) => {
@@ -64,6 +66,31 @@ export default function Portfolio() {
         }
       });
     });
+
+    // Animate service section headings
+    gsap.from('.services .main-text p', {
+      opacity: 0,
+      y: -30,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: '.services .main-text',
+        start: "top 90%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    gsap.from('.services .main-text h2', {
+      opacity: 0,
+      y: -20,
+      duration: 0.8,
+      delay: 0.2,
+      scrollTrigger: {
+        trigger: '.services .main-text',
+        start: "top 90%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
 
     // Text animations
     gsap.from('.home-text h1', {
@@ -199,77 +226,8 @@ export default function Portfolio() {
             </div>
           </section>
 
-          <section className="portfolio" id="portfolio">
-            <div className="main-text">
-              <p>Portfolio</p>
-              <h2><span>Latest</span> Projects</h2>
-              <div className="portfolio-nav-buttons">
-                  <button className="nav-button prev" onClick={() => scrollPortfolio('left')}><i className='bx bx-chevron-left'></i></button>
-                  <button className="nav-button next" onClick={() => scrollPortfolio('right')}><i className='bx bx-chevron-right'></i></button>
-              </div>
-            </div>
-
-            <div className="portfolio-content" ref={portfolioContentRef}>
-              <div className="row">
-                <Image src="/images/SS.png" alt="PC Builder X" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                  <span className="portfolio-tag">Project 1</span>
-                  <h5>PC Builder X</h5>
-                  <p>A powerful desktop application for PC building enthusiasts. Features component compatibility checks and performance benchmarks.</p>
-                  <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-
-              <div className="row">
-                <Image src="/images/ss2.png" alt="E-Commerce Platform" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                   <span className="portfolio-tag">Project 2</span>
-                  <h5>E-Commerce Platform</h5>
-                  <p>A modern e-commerce platform with secure payment integration, user authentication, and real-time inventory management.</p>
-                  <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-
-              <div className="row">
-                <Image src="/images/ss3.png" alt="Task Management App" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                   <span className="portfolio-tag">Project 3</span>
-                  <h5>Task Management App</h5>
-                  <p>A collaborative task management application with real-time updates, team collaboration features, and progress tracking.</p>
-                  <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-
-              <div className="row">
-                <Image src="/images/SS.png" alt="Weather Dashboard" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                   <span className="portfolio-tag">Project 4</span>
-                  <h5>Weather Dashboard</h5>
-                  <p>An interactive weather dashboard that provides real-time weather updates, forecasts, and location-based weather information.</p>
-                  <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-
-              <div className="row">
-                <Image src="/images/ss2.png" alt="Fitness Tracker" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                   <span className="portfolio-tag">Project 5</span>
-                  <h5>Fitness Tracker</h5>
-                  <p>A comprehensive fitness tracking application with workout planning, progress monitoring, and nutrition tracking features.</p>
-                   <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-
-              <div className="row">
-                <Image src="/images/ss3.png" alt="Recipe Finder" width={400} height={300} className="portfolio-image" />
-                <div className="portfolio-text">
-                   <span className="portfolio-tag">Project 6</span>
-                  <h5>Recipe Finder</h5>
-                  <p>A recipe discovery platform with ingredient-based search, meal planning, and nutritional information calculation.</p>
-                   <a href="#" className="read">Read More</a>
-                </div>
-              </div>
-            </div>
+          <section>
+            <Portfolio />
           </section>
 
           <section className="contact" id="contact">

@@ -331,24 +331,27 @@ header.sticky {
 /* Services Section */
 .services {
   background: var(--second-bg-color);
+  padding: 80px 10% 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .main-text {
-  text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .main-text p {
   color: var(--second-color);
   font-size: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .main-text h2 {
   font-size: var(--h2-font);
-  line-height: 1;
   position: relative;
   display: inline-block;
 }
@@ -364,13 +367,16 @@ header.sticky {
   background: var(--main-color);
 }
 
+/* Force 3 cards in a row on larger screens */
 .services-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, auto));
-  align-items: center;
-  gap: 2.5rem;
-  margin-top: 5rem;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
 }
+
+
 
 .box {
   background: var(--bg-color);
@@ -441,7 +447,74 @@ header.sticky {
 
 /* Portfolio Section */
 .portfolio {
+  background: var(--second-bg-color);
+  padding: 80px 10% 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.portfolio .main-text {
+  margin-bottom: 40px;
   position: relative;
+  width: 100%;
+}
+
+.portfolio .main-text p {
+  color: var(--second-color);
+  font-size: 15px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.portfolio .main-text h2 {
+  font-size: var(--h2-font);
+  position: relative;
+  display: inline-block;
+}
+
+.portfolio .main-text h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background: var(--main-color);
+}
+
+/* Nav buttons go below h2 now */
+.portfolio-nav-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Force grid layout for portfolio rows */
+.portfolio-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 3rem;
+}
+
+/* Responsive layout */
+@media (max-width: 950px) {
+  .portfolio-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .portfolio-content {
+    grid-template-columns: 1fr;
+  }
 }
 
 .portfolio-content {
@@ -488,6 +561,7 @@ header.sticky {
 }
 
 .row {
+  position: relative;
   flex: 0 0 auto;
   width: 300px;
   background: var(--second-bg-color);
@@ -497,6 +571,8 @@ header.sticky {
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* subtle base border */
+  z-index: 1;
 }
 
 .row:hover {
@@ -504,10 +580,60 @@ header.sticky {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Shimmer edge effect */
+.row::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.8), transparent);
+  background-size: 400% 100%;
+  background-repeat: no-repeat;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+/* Hover triggers animation */
+.row:hover::before {
+  opacity: 1;
+  animation: shimmer-border-traverse 2.5s linear infinite;
+}
+
+/* New shimmer animation to "walk" around edges */
+@keyframes shimmer-border-traverse {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+
 .portfolio-image {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: containS;
+  padding: 20px;
 }
 
 .portfolio-text {
@@ -564,10 +690,14 @@ header.sticky {
 }
 
 .portfolio-content {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  display: flex;
+  overflow-x: hidden; 
+  gap: 2rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  overflow-y: hidden;
 }
-
 /* Contact Section */
 .contact {
   background: var(--second-bg-color);
@@ -836,5 +966,17 @@ form textarea:focus {
 
   .navlist.open {
     top: 100%;
+  }
+}
+
+@media (max-width: 950px) {
+  .services-content {
+    grid-template-columns: 1fr 1fr; /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .services-content {
+    grid-template-columns: 1fr; /* 1 column on mobile */
   }
 }
