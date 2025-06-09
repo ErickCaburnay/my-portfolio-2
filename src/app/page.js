@@ -7,14 +7,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import GlobalParticles from "../components/GlobalParticles";
-import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
-import ServicesSection from "@/components/ServicesSection";
-import ProjectsCarousel from "@/components/ProjectsCarousel";
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
-import TechnicalSkillSection from "@/components/TechncicalSkillSection";
+import Header from "@/components/Header/Header";
+import HeroSection from "@/components/Hero/HeroSection";
+import AboutSection from "@/components/About/AboutSection";
+import ServicesSection from "@/components/Services/ServicesSection";
+import ProjectsCarousel from "@/components/Projects/ProjectsCarousel";
+import ContactSection from "@/components/Contact/ContactSection";
+import Footer from "@/components/Footer/Footer";
+import DevelopmentSection from "@/components/Development/DevelopmentSection";
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -177,12 +177,16 @@ export default function HomePage() {
           <AboutSection />
         </section>
 
-        <section >
+        {/* <section >
           <TechnicalSkillSection />
-        </section>
+        </section> */}
 
         <section className="services" id="services">
           <ServicesSection />
+        </section>
+
+        <section>
+          <DevelopmentSection/>
         </section>
 
         <section className="portfolio" id="portfolio">

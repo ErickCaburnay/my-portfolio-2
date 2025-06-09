@@ -1,3 +1,4 @@
+// File: TechncicalSkillSection.jsx
 "use client";
 
 import Image from "next/image";
@@ -37,26 +38,24 @@ const TechnicalSkillSection = () => {
 
   // Modern skills array
   const modernSkills = [
-    { name: "HTML", percentage: 85, icon: "/images/html.png" },
-    { name: "CSS", percentage: 85, icon: "/images/css.png" },
-    { name: "Tailwind", percentage: 75, icon: "/images/tailwind.png" },
-    { name: "JavaScript", percentage: 90, icon: "/images/javascript.png" },
-    { name: "React", percentage: 95, icon: "/images/react.png" },
-    { name: "Node.js", percentage: 80, icon: "/images/nodejs.png" },
-    { name: "MongoDb", percentage: 75, icon: "/images/mongo.png" },
-    { name: "Google Firebase", percentage: 75, icon: "/images/firebase.png" },
-    { name: "UI/UX Design", percentage: 70, icon: "/images/figma.png" },
+    { name: "HTML", icon: "/images/html.png" },
+    { name: "CSS", icon: "/images/css.png" },
+    { name: "Tailwind", icon: "/images/tailwind.png" },
+    { name: "JS", icon: "/images/javascript.png" },
+    { name: "React", icon: "/images/react.png" },
+    { name: "Nodejs", icon: "/images/nodejs.png" },
+    { name: "MongoDb", icon: "/images/mongo.png" },
+    { name: "Firebase", icon: "/images/firebase.png" },
+    { name: "UI/UX", icon: "/images/figma.png" },
   ];
 
   return (
-    // Tighten the wrapper: replaced mb-10 with py-4
     <div className="skills-visualization no-min">
-      {/* Tighter heading: changed mb-6 → mb-2 */}
       <motion.h3
+        style={{ fontSize: "1rem" }}
         variants={itemVariants}
-        className="text-5xl font-bold mb-2 text-center md:text-left"
+        className="text-4xl font-bold mb-2 text-center md:text-left"
         initial="hidden"
-        style={{ fontSize: "3rem" }}
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
@@ -74,72 +73,33 @@ const TechnicalSkillSection = () => {
           <motion.div
             key={skill.name}
             variants={skillItemVariants}
-            className="skill-card w-20 h-16 p-4 rounded-xl shadow-md"
+            className="skill-card"
             onMouseEnter={() => setHoveredSkill(index)}
             onMouseLeave={() => setHoveredSkill(null)}
             whileHover={{
-              y: -8,
-              transition: { duration: 0.3, ease: "easeOut" },
+              y: -6,
+              transition: { duration: 0.25, ease: "easeOut" },
             }}
           >
-            <div className="skill-header">
-              <div className="skill-icon-wrapper">
-                <Image
-                  src={skill.icon}
-                  alt={skill.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full w-10 h-10 object-contain"
-                />
-                <motion.div
-                  className="skill-icon-glow"
-                  animate={{
-                    scale: hoveredSkill === index ? [1, 1.2, 1] : 1,
-                    opacity: hoveredSkill === index ? [0.5, 0.8, 0.5] : 0.3,
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              </div>
-              <div className="skill-info">
-                <h4 className="skill-name">{skill.name}</h4>
-                <span className="skill-percentage">{skill.percentage}%</span>
-              </div>
+            <div className="skill-icon-wrapper">
+              <Image
+                src={skill.icon}
+                alt={skill.name}
+                width={20}
+                height={20}
+                className="object-contain"
+              />
+              <motion.div
+                className="skill-icon-glow"
+                animate={{
+                  scale: hoveredSkill === index ? [1, 1.2, 1] : 1,
+                  opacity: hoveredSkill === index ? [0.4, 0.7, 0.4] : 0,
+                }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
             </div>
 
-            <div className="skill-progress-container">
-              <motion.div
-                className="skill-progress-bg"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-              >
-                <motion.div
-                  className="skill-progress-fill"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.percentage}%` }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 1.2,
-                    delay: index * 0.1 + 0.3,
-                    ease: "easeOut",
-                  }}
-                >
-                  <motion.div
-                    className="skill-progress-shimmer"
-                    animate={{
-                      x: ["-100%", "100%"],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: index * 0.2,
-                    }}
-                  />
-                </motion.div>
-              </motion.div>
-            </div>
+            <span className="skill-name">{skill.name}</span>
 
             {hoveredSkill === index && (
               <div className="skill-particles">
@@ -151,11 +111,11 @@ const TechnicalSkillSection = () => {
                     animate={{
                       opacity: [0, 1, 0],
                       scale: [0, 1, 0],
-                      x: [0, Math.random() * 60 - 30],
-                      y: [0, Math.random() * -40 - 10],
+                      x: [0, Math.random() * 40 - 20],
+                      y: [0, Math.random() * -30 - 10],
                     }}
                     transition={{
-                      duration: 1.5,
+                      duration: 1.2,
                       repeat: Infinity,
                       delay: i * 0.1,
                     }}

@@ -1,0 +1,129 @@
+
+  .services {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .main-text {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .main-text p {
+    color: var(--main-color);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .main-text h2 {
+    font-size: var(--h2-font);
+    font-weight: 700;
+  }
+  
+  .main-text h2 span {
+    color: var(--main-color);
+  }
+  
+  .services-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .box {
+    background: var(--second-bg-color);
+    padding: 3rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(0, 255, 136, 0.1);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: content;
+  }
+  
+  .box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .box:hover::before {
+    left: 100%;
+  }
+  
+  .box:hover {
+    border-color: var(--main-color);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+  }
+  
+  .s-icons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .s-icons i {
+    height: 80px;
+    width: 80px;
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .box:hover .s-icons i {
+    transform: scale(1.1) rotate(10deg);
+  }
+  
+  .box h3 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .box p {
+    color: var(--second-color);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  
+  .read {
+    color: var(--main-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .read:hover {
+    color: #00e676;
+    text-decoration: underline;
+  }
+  
+  /* Responsive for services section */
+  @media (max-width: 768px) {
+    .services-content {
+      grid-template-columns: 1fr;
+    }
+    .box {
+      min-width: 280px;
+    }
+  }
+  

@@ -15,6 +15,7 @@ module.exports = {
           'text-primary': '#fff',
           'text-secondary': '#ccc',
         },
+        
         fontFamily: {
           poppins: ['Poppins', 'sans-serif'],
         },
@@ -28,6 +29,7 @@ module.exports = {
           'fade-in-up': 'fade-in-up 0.6s ease-out forwards',
           'fade-in-left': 'fade-in-left 0.6s ease-out forwards',
           'fade-in-right': 'fade-in-right 0.6s ease-out forwards',
+          'pulse-soft': 'pulse 2.5s ease-in-out infinite',
         },
         keyframes: {
           'scroll-horizontal': {
@@ -45,6 +47,10 @@ module.exports = {
           'fade-in-right': {
             '0%': { opacity: '0', transform: 'translateX(30px)' },
             '100%': { opacity: '1', transform: 'translateX(0)' },
+          },
+          pulse: {
+            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+            '50%': { transform: 'scale(1.05)', opacity: '0.8' },
           },
         },
       },

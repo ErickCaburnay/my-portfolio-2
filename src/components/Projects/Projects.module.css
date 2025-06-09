@@ -1,0 +1,287 @@
+.section {
+    width: 100vw;
+    min-height: 80vh;
+    padding: 0;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    overflow: visible;
+  }
+  .inner {
+    width: 80vw;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0; 
+  }
+  @media (min-width: 1024px) {
+    .inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+  }
+  .left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  @media (min-width: 1024px) {
+    .left {
+      width: 42%;
+    }
+  }
+ 
+  .title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1.8rem;
+    line-height: 1.1;
+  }
+  @media (min-width: 640px) {
+    .title {
+      font-size: 3rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .title {
+      font-size: 3.5rem;
+    }
+  }
+  .titleHighlight {
+    color: #7c3aed;
+  }
+ 
+  .desc {
+    font-size: 2rem;
+    color: #4b5563;
+    margin-bottom: 1.2rem;
+    max-width: 40rem;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+  }
+  .right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  @media (min-width: 1024px) {
+    .right {
+      width: 56%;
+    }
+  }
+  .cardsWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 35rem;
+    min-height: 26rem;
+  }
+  .card {
+    width: 100%;
+    min-height: 500px;
+    max-width: none;
+    min-width: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 2rem;
+    /* box-shadow: 10px 10px 8px 32px rgba(55, 220, 33, 0.11), 0 1.5px 7px rgba(86, 150, 80, 0.08); */
+    border: 1.5px solid #ede9fe;
+    padding: 2.2rem 2.5rem 1.7rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    outline: none;
+  }
+  .cardContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 1.5rem;
+  }
+  .cardTextContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  .techBadges {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+  .techBadge {
+    background: rgba(44, 30, 160, 0.72);
+    color: #fff;
+    border-radius: 24px;
+    padding: 0.3em 0.95em;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    box-shadow: 0 2px 8px rgba(60,20,120,0.12);
+    user-select: none;
+  }
+  .cardsCol {
+    position: relative;
+    width: 50%;
+    min-width: 360px;
+    height: 730px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    overflow: hidden;
+  }
+  
+  @media (max-width: 900px) {
+    .cardsCol {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+  
+  .card:focus, .card:hover {
+    box-shadow: 5px 12px 40px 0 rgba(95, 255, 130, 0.555);
+    border-color: linear-gradient(90deg, #038619, #2feb28);
+  }
+  .cardImage {
+    position: absolute;
+    top: 0; right: 0;
+    opacity: 0.12;
+    width: 8rem;
+    height: 7rem;
+    pointer-events: none;
+  }
+  .cardIcon {
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: #f3e8ff;
+    padding: 1rem;
+  }
+  .cardTitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #18181b;
+    margin-bottom: 0.5rem;
+  }
+  .cardDesc {
+    font-size: 1.07rem;
+    color: #4b5563;
+    margin-bottom: 0.8rem;
+  }
+  .dots {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    z-index: 30;
+  }
+  .dotBtn {
+    width: 1rem; height: 1rem;
+    border-radius: 9999px;
+    background: #e4e4e7;
+    border: 2px solid #c7bff9;
+    transition: all 0.16s;
+    cursor: pointer;
+  }
+  .dotBtnActive {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    transform: scale(1.18);
+    box-shadow: 0 0 0 2px #a78bfa99;
+  }
+  .chevrons {
+    position: absolute;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    pointer-events: none;
+  }
+  .chevronBtn {
+    background: rgba(255,255,255,0.93);
+    border: none;
+    border-radius: 100px;
+    width: 2.6rem; height: 2.6rem;
+    display: flex; align-items: center; justify-content: center;
+    color: #7c3aed;
+    box-shadow: 0 1px 7px rgba(120, 120, 160, 0.09);
+    pointer-events: auto;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .chevronBtn:hover, .chevronBtn:focus {
+    background: #f3e8ff;
+    box-shadow: 0 3px 15px rgba(124,58,237,0.12);
+  }
+  @media (max-width: 1023px) {
+    .cardsWrapper { max-width: 100%; }
+  }
+  @media (max-width: 800px) {
+    .inner { flex-direction: column; }
+    .left, .right { width: 100%; }
+  }
+  .mobileCards {
+    width: 100%;
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.7rem;
+  }
+  .mobileCard {
+    min-width: 18rem;
+    max-width: 90vw;
+    background: rgba(255,255,255,0.93);
+    backdrop-filter: blur(6px);
+    border-radius: 1.4rem;
+    box-shadow: 0 8px 32px rgba(56, 33, 220, 0.09);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #ede9fe;
+    margin-bottom: 0.3rem;
+    transition: box-shadow 0.3s, border 0.3s;
+  }
+  .mobileCardActive {
+    transform: scale(1.04);
+    box-shadow: 0 10px 36px rgba(124,58,237,0.15);
+    border-color: #a78bfa;
+  }
+  .mobileCardInactive {
+    opacity: 0.7;
+    transform: scale(0.97);
+  }
+  @media (min-width: 1024px) {
+    .mobileCards { display: none; }
+  }
+  
