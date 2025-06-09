@@ -1,0 +1,125 @@
+.loaderOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 1);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pulseWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .spinnerWithImage {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loaderImage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 56px;
+    height: 56px;
+  }
+  
+  .eclipseSpinner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    z-index: 1;
+    animation: eclipseSpin 1.2s linear infinite;
+  }
+  
+  .eclipseSpinner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 90deg,
+        transparent 0deg,
+        transparent 30deg,
+        rgba(39, 174, 96, 0.05) 60deg,    
+        rgba(39, 174, 96, 0.2) 70deg,     
+        rgba(39, 174, 96, 0.6) 80deg,     
+        #27ae60 120deg,                   
+        #2ecc40 160deg,                    
+        #27ae60 210deg,                  
+        rgba(39, 174, 96, 0.6) 230deg,    
+        rgba(39, 174, 96, 0.2) 240deg,    
+        rgba(39, 174, 96, 0.05) 250deg,   
+        transparent 280deg,
+        transparent 360deg
+        );
+
+    mask: radial-gradient(
+      circle at center,
+      transparent 44px,
+      black 47px,
+      black 50px,
+      transparent 53px
+    );
+    -webkit-mask: radial-gradient(
+      circle at center,
+      transparent 44px,
+      black 47px,
+      black 50px,
+      transparent 53px
+    );
+  }
+  
+  @keyframes eclipseSpin {
+    0% { 
+      transform: rotate(0deg);
+    }
+    100% { 
+      transform: rotate(360deg);
+    }
+  }
+
+  .pulseGlow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 15, 7, 0.3) 40%, rgba(39, 174, 95, 0.87) 70%, transparent 100%);
+    z-index: 0;
+    animation: pulseGlow 1.6s infinite cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+  }
+  
+  @keyframes pulseGlow {
+    0% {
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scale(0.10);
+    }
+    /* 50% {
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(.80);
+    } */
+    100% {
+      opacity: 0.0;
+      transform: translate(-50%, -50%) scale(1.4);
+    }
+  }
+  

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import gsap from "gsap";
+import styles from "./Hero.module.css";
 
 const HeroSection = () => {
   const heroRef = useRef(null);
@@ -19,7 +20,6 @@ const HeroSection = () => {
     const glowElement = glowRef.current;
 
     if (heroElement && imageElement && glowElement) {
-      // Enhanced floating animation
       gsap.to(imageElement, {
         y: 20,
         rotation: 2,
@@ -29,7 +29,6 @@ const HeroSection = () => {
         repeat: -1,
       });
 
-      // Animated glow effect
       gsap.to(glowElement, {
         scale: 1.3,
         opacity: 0.6,
@@ -39,7 +38,6 @@ const HeroSection = () => {
         repeat: -1,
       });
 
-      // Parallax effect
       gsap.to(heroElement, {
         yPercent: -25,
         ease: "none",
@@ -52,7 +50,6 @@ const HeroSection = () => {
       });
     }
 
-    // Cleanup
     return () => {
       gsap.killTweensOf([heroElement, imageElement, glowElement]);
     };
@@ -134,7 +131,6 @@ const HeroSection = () => {
       windowSize.height > 0 &&
       particles.length === 0
     ) {
-      // Create 15 particles with random initial positions/scales once
       const newParticles = Array(15)
         .fill(null)
         .map(() => ({
@@ -147,282 +143,248 @@ const HeroSection = () => {
   }, [windowSize, particles.length]);
 
   if (windowSize.width === 0 || windowSize.height === 0) {
-    return null; // or a loader if you want
+    return null;
   }
 
   return (
-    <>
-      <div className="hero-section-container">
-        <div className="hero-particles" ref={particlesRef}>
-          {particles.map((p, i) => (
-            <motion.div
-              key={i}
-              className="particle"
-              initial={{ x: p.x, y: p.y, scale: p.scale }}
+    <div className={styles["hero-section-container"]}>
+      <div className={styles["hero-particles"]} ref={particlesRef}>
+        {particles.map((p, i) => (
+          <motion.div
+            key={i}
+            className={styles.particle}
+            initial={{ x: p.x, y: p.y, scale: p.scale }}
+            animate={{
+              x: Math.random() * windowSize.width,
+              y: Math.random() * windowSize.height,
+              scale: [0.5, 1, 0.5],
+              opacity: [0.2, 0.8, 0.2],
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </div>
+
+      <motion.div
+        ref={heroRef}
+        className={styles["hero-content-enhanced"]}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div className={styles["hero-text-enhanced"]} variants={textVariants}>
+          <motion.div className={styles["hero-badge"]} variants={textVariants}>
+            <span className={styles["badge-dot"]}></span>
+            Available for freelance
+          </motion.div>
+
+          <motion.h3 variants={textVariants} className={styles["hero-greeting"]}>
+            Hello, I'm
+          </motion.h3>
+
+          <motion.h1 variants={textVariants} className={styles["hero-name"]}>
+            Erick Jefferson
+            <span className={styles["hero-name-highlight"]}>
+              <span className={styles["gradient-text"]}>Caburnay</span>
+              <motion.div
+                className={styles["name-underline"]}
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1, delay: 1.5 }}
+              />
+            </span>
+          </motion.h1>
+
+          <motion.div variants={textVariants} className={styles["hero-title-container"]}>
+            <span className={styles["hero-title-prefix"]}>Creative</span>
+            <motion.span
+              className={styles["hero-title-main"]}
               animate={{
-                x: Math.random() * windowSize.width,
-                y: Math.random() * windowSize.height,
-                scale: [0.5, 1, 0.5],
-                opacity: [0.2, 0.8, 0.2],
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
               transition={{
-                duration: Math.random() * 20 + 10,
+                duration: 3,
                 repeat: Infinity,
-                ease: "linear",
+                ease: "easeInOut",
               }}
-            />
-          ))}
-        </div>
-
-        {/* Removed inline style for flexDirection */}
-        <motion.div
-          ref={heroRef}
-          className="hero-content-enhanced"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div className="hero-text-enhanced" variants={textVariants}>
-            <motion.div
-              className="hero-badge"
-              variants={textVariants}
             >
-              <span className="badge-dot"></span>
-              Available for freelance
-            </motion.div>
+              Web Developer
+            </motion.span>
+          </motion.div>
 
-            <motion.h3 variants={textVariants} className="hero-greeting">
-              Hello, I'm
-            </motion.h3>
+          <motion.p variants={textVariants} className={styles["hero-description"]}>
+            I craft{" "}
+            <span className={styles["highlight-text"]}>exceptional digital experiences</span> through innovative web development. Specializing in modern
+            frameworks and cutting-edge technologies to bring your vision to life with{" "}
+            <span className={styles["highlight-text"]}>pixel-perfect precision</span>.
+          </motion.p>
 
-            <motion.h1 variants={textVariants} className="hero-name">
-              Erick Jefferson
-              <span className="hero-name-highlight">
-                <span className="gradient-text">Caburnay</span>
-                <motion.div
-                  className="name-underline"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 1.5 }}
-                />
+          <motion.div variants={textVariants} className={styles["hero-buttons"]}>
+            <motion.button
+              className={styles["btn-primary-enhanced"]}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <span className="btn-text">Let's Collaborate</span>
+              <span className={styles["btn-icon"]}>
+                <i className="bx bx-right-arrow-alt"></i>
               </span>
-            </motion.h1>
+            </motion.button>
 
-            <motion.div
-              variants={textVariants}
-              className="hero-title-container"
+            <motion.button
+              className={styles["btn-secondary-enhanced"]}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
             >
-              <span className="hero-title-prefix">Creative</span>
-              <motion.span
-                className="hero-title-main"
+              <span className="btn-text">View Portfolio</span>
+              <span className={styles["btn-icon"]}>
+                <i className="bx bx-folder-open"></i>
+              </span>
+            </motion.button>
+          </motion.div>
+
+          <motion.div variants={textVariants} className={styles["hero-social-enhanced"]}>
+            <span className={styles["social-label"]}>Follow me</span>
+            <div className={styles["social-links"]}>
+              {[
+                { icon: "bxl-github", href: "#", color: "#333" },
+                { icon: "bxl-linkedin", href: "#", color: "#0077b5" },
+                { icon: "bxl-twitter", href: "#", color: "#1da1f2" },
+                { icon: "bxl-instagram-alt", href: "#", color: "#e4405f" },
+                { icon: "bxl-behance", href: "#", color: "#1769ff" },
+              ].map((social, index) => (
+                <motion.a
+                  key={social.icon}
+                  href={social.href}
+                  className={styles["social-link"]}
+                  variants={socialVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
+                  style={{ "--social-color": social.color }}
+                >
+                  <i className={`bx ${social.icon}`}></i>
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div className={styles["hero-image-enhanced"]} variants={imageVariants}>
+          <div className={styles["image-container"]} ref={imageRef}>
+            <div className={styles["bg-decorations"]}>
+              <motion.div
+                className={`${styles["decoration-circle"]} ${styles["decoration-1"]}`}
                 animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  rotate: [0, 360],
+                  scale: [1, 1.1, 1],
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 15,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+              <motion.div
+                className={`${styles["decoration-circle"]} ${styles["decoration-2"]}`}
+                animate={{
+                  rotate: [360, 0],
+                  scale: [1.1, 1, 1.1],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+            </div>
+
+            <div className={styles["image-glow"]} ref={glowRef} />
+
+            <div className={styles["image-wrapper"]}>
+              <Image
+                src="/images/3d1.jpg"
+                alt="Erick Jefferson Caburnay"
+                width={450}
+                height={540}
+                className={styles["hero-main-image"]}
+                priority
+                sizes="(max-width: 576px) 280px, (max-width: 968px) 350px, (max-width: 1200px) 400px, 450px"
+              />
+
+              <motion.div
+                className={styles["floating-badge"]}
+                animate={{
+                  rotate: [0, 360],
+                  y: [-5, 5, -5],
+                }}
+                transition={{
+                  rotate: { duration: 25, repeat: Infinity, ease: "linear" },
+                  y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                }}
+              >
+                <i className="bx bx-code-alt"></i>
+              </motion.div>
+
+              <motion.div
+                className={`${styles["skill-tag"]} ${styles["skill-tag-1"]}`}
+                animate={{
+                  x: [0, 10, 0],
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
               >
-                Web Developer
-              </motion.span>
-            </motion.div>
+                React
+              </motion.div>
 
-            <motion.p variants={textVariants} className="hero-description">
-              I craft{" "}
-              <span className="highlight-text">exceptional digital experiences</span> through innovative web development. Specializing in modern
-              frameworks and cutting-edge technologies to bring your vision to life with{" "}
-              <span className="highlight-text">pixel-perfect precision</span>.
-            </motion.p>
-
-            <motion.div variants={textVariants} className="hero-buttons">
-              <motion.button
-                className="btn-primary-enhanced"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
+              <motion.div
+                className={`${styles["skill-tag"]} ${styles["skill-tag-2"]}`}
+                animate={{
+                  x: [0, -8, 0],
+                  y: [0, 8, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
               >
-                <span className="btn-text">Let's Collaborate</span>
-                <span className="btn-icon">
-                  <i className="bx bx-right-arrow-alt"></i>
-                </span>
-              </motion.button>
+                Next.js
+              </motion.div>
 
-              <motion.button
-                className="btn-secondary-enhanced"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
+              <motion.div
+                className={`${styles["skill-tag"]} ${styles["skill-tag-3"]}`}
+                animate={{
+                  x: [0, 12, 0],
+                  y: [0, 6, 0],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2,
+                }}
               >
-                <span className="btn-text">View Portfolio</span>
-                <span className="btn-icon">
-                  <i className="bx bx-folder-open"></i>
-                </span>
-              </motion.button>
-            </motion.div>
-
-            <motion.div variants={textVariants} className="hero-social-enhanced">
-              <span className="social-label">Follow me</span>
-              <div className="social-links">
-                {[
-                  { icon: "bxl-github", href: "#", color: "#333" },
-                  { icon: "bxl-linkedin", href: "#", color: "#0077b5" },
-                  { icon: "bxl-twitter", href: "#", color: "#1da1f2" },
-                  { icon: "bxl-instagram-alt", href: "#", color: "#e4405f" },
-                  { icon: "bxl-behance", href: "#", color: "#1769ff" },
-                ].map((social, index) => (
-                  <motion.a
-                    key={social.icon}
-                    href={social.href}
-                    className="social-link"
-                    variants={socialVariants}
-                    whileHover="hover"
-                    whileTap="tap"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
-                    style={{ "--social-color": social.color }}
-                  >
-                    <i className={`bx ${social.icon}`}></i>
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div className="hero-image-enhanced" variants={imageVariants}>
-            <div className="image-container" ref={imageRef}>
-              {/* Animated background elements */}
-              <div className="bg-decorations">
-                <motion.div
-                  className="decoration-circle decoration-1"
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-                <motion.div
-                  className="decoration-circle decoration-2"
-                  animate={{
-                    rotate: [360, 0],
-                    scale: [1.1, 1, 1.1],
-                  }}
-                  transition={{
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-              </div>
-
-              {/* Glow effect */}
-              <div className="image-glow" ref={glowRef} />
-
-              {/* Main image */}
-              <div className="image-wrapper">
-                <Image
-                  src="/images/3d1.jpg"
-                  alt="Erick Jefferson Caburnay"
-                  width={450}
-                  height={540}
-                  className="hero-main-image"
-                  priority
-                  sizes="(max-width: 576px) 280px, (max-width: 968px) 350px, (max-width: 1200px) 400px, 450px"
-                />
-
-                {/* Floating badge */}
-                <motion.div
-                  className="floating-badge"
-                  animate={{
-                    rotate: [0, 360],
-                    y: [-5, 5, -5],
-                  }}
-                  transition={{
-                    rotate: { duration: 25, repeat: Infinity, ease: "linear" },
-                    y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-                  }}
-                >
-                  <i className="bx bx-code-alt"></i>
-                </motion.div>
-
-                {/* Skills floating around */}
-                <motion.div
-                  className="skill-tag skill-tag-1"
-                  animate={{
-                    x: [0, 10, 0],
-                    y: [0, -10, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  React
-                </motion.div>
-
-                <motion.div
-                  className="skill-tag skill-tag-2"
-                  animate={{
-                    x: [0, -8, 0],
-                    y: [0, 8, 0],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1,
-                  }}
-                >
-                  Next.js
-                </motion.div>
-
-                <motion.div
-                  className="skill-tag skill-tag-3"
-                  animate={{
-                    x: [0, 12, 0],
-                    y: [0, 6, 0],
-                  }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2,
-                  }}
-                >
-                  Tailwind
-                </motion.div>
-              </div>
+                Tailwind
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
-      </div>
-
-      <style jsx>{`
-        @media (max-width: 970px) {
-          .hero-content-enhanced {
-            flex-direction: column;
-            text-align: center;
-            gap: 2.5rem;
-            padding: 100px 4% 50px;
-          }
-
-          .hero-text-enhanced {
-            order: 1;
-          }
-
-          .hero-image-enhanced {
-            order: 2;
-            margin-top: 2rem;
-          }
-        }
-      `}</style>
-    </>
+      </motion.div>
+    </div>
   );
 };
 

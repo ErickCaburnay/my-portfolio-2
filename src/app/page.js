@@ -15,15 +15,20 @@ import ProjectsCarousel from "@/components/Projects/ProjectsCarousel";
 import ContactSection from "@/components/Contact/ContactSection";
 import Footer from "@/components/Footer/Footer";
 import DevelopmentSection from "@/components/Development/DevelopmentSection";
+import Loader from "@/components/Loader/Loader";
 
-// Register GSAP plugins
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 2400);
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -56,7 +61,6 @@ export default function HomePage() {
 
     // GSAP ScrollTrigger animations
     const initScrollAnimations = () => {
-      // Fade in animations for sections with reduced complexity
       gsap.utils.toArray('section').forEach((section, index) => {
         gsap.fromTo(section, 
           {
@@ -148,6 +152,10 @@ export default function HomePage() {
     //   ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     // };
   }, []);
+
+  if (!isLoaded) {
+    return <Loader />;
+  }
 
   return (
     <>
