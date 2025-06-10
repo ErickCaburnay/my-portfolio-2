@@ -12,6 +12,9 @@ const Footer = () => {
   const rafRef = useRef();
   const lastScrollY = useRef(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [pulse, setPulse] = useState(false);
+  const scrollTopBtnRef = useRef(null);
+
 
   const handleScroll = useCallback(() => {
     if (rafRef.current) {
@@ -53,6 +56,11 @@ const Footer = () => {
   }, [email]);
 
   const scrollToTop = useCallback(() => {
+    if (scrollTopBtnRef.current) {
+      scrollTopBtnRef.current.classList.remove(styles.pulse); 
+      void scrollTopBtnRef.current.offsetWidth; 
+      scrollTopBtnRef.current.classList.add(styles.pulse);
+    }
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -105,18 +113,14 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className={styles.footerBrandHeader}>
+              <div className={styles.footerBrandTextAndLogo}>
                 <div className={styles.footerBrandLogo}>
                   <span>ZI</span>
                 </div>
-                <div>
-                  {/* <h3 className={styles.footerBrandName}>Your Name</h3>
-                  <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Full Stack Developer</p> */}
-                </div>
+                <p className={styles.footerBrandDesc}>
+                  Passionate about creating exceptional digital experiences through innovative web development, modern design, and cutting-edge technologies. Let\'s build something amazing together.
+                </p>
               </div>
-              <p className={styles.footerBrandDesc}>
-                Passionate about creating exceptional digital experiences through innovative web development, modern design, and cutting-edge technologies. Let's build something amazing together.
-              </p>
 
               {/* Newsletter Signup */}
               <div style={{ marginBottom: "1.5rem" }}>
@@ -278,23 +282,30 @@ const Footer = () => {
 
       {/* Scroll To Top Floating Button */}
       <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            key="scroll-to-top"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            onClick={scrollToTop}
-            aria-label="Scroll to top"
-            className={styles.scrollTopBtn}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-            </svg>
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {showScrollTop && (
+        <motion.button
+          key="scroll-to-top"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3 }}
+          onClick={scrollToTop}
+          aria-label="Scroll to top"
+          className={styles.scrollTopBtn}
+          ref={scrollTopBtnRef}
+          onAnimationEnd={() => {
+            if (scrollTopBtnRef.current) {
+              scrollTopBtnRef.current.classList.remove(styles.pulse);
+            }
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+          </svg>
+        </motion.button>
+      )}
+    </AnimatePresence>
+
     </footer>
   );
 };

@@ -128,7 +128,7 @@ const AboutSection = () => {
         <div><TechnicalSkillSection/></div>
         {/* Call-to-Action Buttons */}
         <motion.div
-          className="flex flex-wrap gap-6 mt-10"
+          className="flex flex-wrap gap-6 mt-10 justify-center"
           variants={itemVariants}
         >
           <motion.a

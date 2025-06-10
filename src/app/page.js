@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Lenis from '@studio-freight/lenis';
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dynamic from "next/dynamic"; // Import dynamic
+// import Lenis from '@studio-freight/lenis'; // Commented out Lenis import
+// import gsap from "gsap"; // Commented out gsap import
+// import { ScrollTrigger } from "gsap/ScrollTrigger"; // Commented out ScrollTrigger import
 
 import GlobalParticles from "../components/GlobalParticles";
-import Header from "@/components/Header/Header";
+// import Header from "@/components/Header/Header"; // Comment out direct import
 import HeroSection from "@/components/Hero/HeroSection";
 import AboutSection from "@/components/About/AboutSection";
 import ServicesSection from "@/components/Services/ServicesSection";
@@ -17,9 +18,12 @@ import Footer from "@/components/Footer/Footer";
 import DevelopmentSection from "@/components/Development/DevelopmentSection";
 import Loader from "@/components/Loader/Loader";
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// Dynamically import Header component to ensure it's only rendered on the client-side
+const DynamicHeader = dynamic(() => import("@/components/Header/Header"), { ssr: false });
+
+// if (typeof window !== 'undefined') {
+//   gsap.registerPlugin(ScrollTrigger);
+// }
 
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -60,85 +64,85 @@ export default function HomePage() {
     // requestAnimationFrame(raf);
 
     // GSAP ScrollTrigger animations
-    const initScrollAnimations = () => {
-      gsap.utils.toArray('section').forEach((section, index) => {
-        gsap.fromTo(section, 
-          {
-            opacity: 0,
-            y: 20
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power1.out",
-            scrollTrigger: {
-              trigger: section,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-              fastScrollEnd: true
-            }
-          }
-        );
-      });
+    // const initScrollAnimations = () => {
+    //   gsap.utils.toArray('section').forEach((section, index) => {
+    //     gsap.fromTo(section, 
+    //       {
+    //         opacity: 0,
+    //         y: 20
+    //       },
+    //       {
+    //         opacity: 1,
+    //         y: 0,
+    //         duration: 0.4,
+    //         ease: "power1.out",
+    //         scrollTrigger: {
+    //           trigger: section,
+    //           start: "top 90%",
+    //           toggleActions: "play none none reverse",
+    //           fastScrollEnd: true
+    //         }
+    //       }
+    //     );
+    //   });
 
-      // Simplified parallax effect
-      gsap.to('.fixed-bg', {
-        yPercent: -30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-          fastScrollEnd: true
-        }
-      });
+    //   // Simplified parallax effect
+    //   gsap.to('.fixed-bg', {
+    //     yPercent: -30,
+    //     ease: "none",
+    //     scrollTrigger: {
+    //       trigger: "body",
+    //       start: "top bottom",
+    //       end: "bottom top",
+    //       scrub: 1,
+    //       fastScrollEnd: true
+    //     }
+    //   });
 
-      // Optimized stagger animation for service boxes
-      gsap.fromTo('.box', 
-        {
-          opacity: 0,
-          y: 15
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4,
-          ease: "power1.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: ".services-content",
-            start: "top 85%",
-            end: "bottom 20%",
-            toggleActions: "play none none none",
-            fastScrollEnd: true
-          }
-        }
-      );
+    //   // Optimized stagger animation for service boxes
+    //   gsap.fromTo('.box', 
+    //     {
+    //       opacity: 0,
+    //       y: 15
+    //     },
+    //     {
+    //       opacity: 1,
+    //       y: 0,
+    //       duration: 0.4,
+    //       ease: "power1.out",
+    //       stagger: 0.1,
+    //       scrollTrigger: {
+    //         trigger: ".services-content",
+    //         start: "top 85%",
+    //         end: "bottom 20%",
+    //         toggleActions: "play none none none",
+    //         fastScrollEnd: true
+    //       }
+    //     }
+    //   );
 
-      // Simplified text reveal animations
-      gsap.utils.toArray('.main-text h2').forEach(text => {
-        gsap.fromTo(text,
-          {
-            opacity: 0,
-            y: 10
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power1.out",
-            scrollTrigger: {
-              trigger: text,
-              start: "top 95%",
-              toggleActions: "play none none reverse",
-              fastScrollEnd: true
-            }
-          }
-        );
-      });
-    };
+    //   // Simplified text reveal animations
+    //   gsap.utils.toArray('.main-text h2').forEach(text => {
+    //     gsap.fromTo(text,
+    //       {
+    //         opacity: 0,
+    //         y: 10
+    //       },
+    //       {
+    //         opacity: 1,
+    //         y: 0,
+    //         duration: 0.4,
+    //         ease: "power1.out",
+    //         scrollTrigger: {
+    //           trigger: text,
+    //           start: "top 95%",
+    //           toggleActions: "play none none reverse",
+    //           fastScrollEnd: true
+    //         }
+    //       }
+    //     );
+    //   });
+    // };
 
     // Initialize animations after a short delay
     // const timer = setTimeout(() => {
@@ -170,7 +174,7 @@ export default function HomePage() {
         className="main-content" 
         style={{ position: "relative", zIndex: 2 }} 
       >
-        <Header />
+        <DynamicHeader /> {/* Use DynamicHeader instead of Header */}
       
       <main>
         <section className="home" id="home">

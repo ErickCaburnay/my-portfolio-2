@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion"; // Commented out motion import
 import styles from './Header.module.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,30 +59,30 @@ const Header = () => {
   ];
 
   return (
-    <motion.header
+    <header
       className={styles.header}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      // initial={{ y: -100, opacity: 0 }}
+      // animate={{ y: 0, opacity: 1 }}
+      // transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <motion.a
+      <a
         href="#home"
         className={styles.logo}
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 300 }}
+        // whileHover={{ scale: 1.1 }}
+        // transition={{ type: "spring", stiffness: 300 }}
         onClick={() => handleNavClick('home')}
       >
         P<span className={styles.logoSpan}>rog</span>ra<span className={styles.logoSpan}>mer</span>.
-      </motion.a>
+      </a>
 
       <ul className={`${styles.nav} ${isMenuOpen ? styles.navActive : ""}`}>
         {navItems.map((item, index) => (
-          <motion.li
+          <li
             key={item.id}
             className={styles.navItem}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
+            // initial={{ opacity: 0, y: -20 }}
+            // animate={{ opacity: 1, y: 0 }}
+            // transition={{ delay: index * 0.1, duration: 0.5 }}
           >
             <a
               href={`#${item.id}`}
@@ -80,18 +94,18 @@ const Header = () => {
             >
               {item.label}
             </a>
-          </motion.li>
+          </li>
         ))}
       </ul>
 
-      <motion.div
+      <div
         className={`bx bx-menu ${styles.menuIcon}`}
         id="menu-icon"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        // whileHover={{ scale: 1.1 }}
+        // whileTap={{ scale: 0.9 }}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       />
-    </motion.header>
+    </header>
   );
 };
 

@@ -1,5 +1,6 @@
 import { Poppins } from 'next/font/google'
 import './globals.css'
+import ParallaxBackground from '@/components/ParallaxBackground'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={poppins.className}>
+        <ParallaxBackground />
         <div className="fixed-bg"></div>
         {children}
       </body>

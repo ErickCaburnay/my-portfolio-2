@@ -175,6 +175,8 @@
     gap: 1.5rem;
     margin-bottom: 3rem;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
   }
   
   .btn-primary-enhanced,
@@ -410,19 +412,25 @@
   
   .skill-tag-1 {
     top: 20%;
-    left: -20px;
+    left: -60px;
   }
   
   .skill-tag-2 {
     top: 60%;
-    right: -30px;
+    right: -60px;
   }
   
   .skill-tag-3 {
-    bottom: 30%;
-    left: -25px;
+    bottom: 10%;
+    left: -90px;
   }
   
+  .skill-tag-4 {
+    bottom: 90%;
+    left: 320px;
+  }
+  
+
   /* Responsive Design */
   @media (max-width: 1200px) {
     .hero-content-enhanced {

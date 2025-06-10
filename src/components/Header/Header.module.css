@@ -26,9 +26,12 @@
 }
 
 .nav {
-  display: flex;
+  display: none; /* Hidden by default across all screen sizes */
   list-style: none;
   gap: 2rem;
+  flex-direction: row; /* Default for desktop, overridden by mobile media query */
+  background: transparent; /* Default for desktop */
+  padding: 0; /* Default for desktop */
 }
 
 .navItem {}
@@ -54,46 +57,76 @@
   font-size: 35px;
   z-index: 10001;
   cursor: pointer;
-  display: none;
+  display: none; /* Hidden by default */
 }
 
+/* Desktop Navigation Styles */
+@media (min-width: 769px) {
+  .nav {
+    display: flex; /* Show for desktop */
+    position: static;
+    top: auto;
+    left: auto;
+    width: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    flex-direction: row;
+    background: transparent;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 0;
+    gap: 2rem;
+    transition: none;
+    z-index: auto;
+  }
+
+  .menuIcon {
+    display: none !important; /* Ensure hidden on desktop */
+  }
+}
+
+/* Mobile Specific Styles */
 @media (max-width: 768px) {
   .nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: -100%;
-    width: 270px;
+    display: flex; /* Show as flex for mobile menu structure */
+    position: fixed;
+    top: 80px; /* Position below the header */
+    left: 0; /* Align to the left of the screen */
+    width: 100%;
+    max-height: 0; /* Initially hidden */
+    overflow: hidden;
     background: var(--second-bg-color);
     flex-direction: column;
     justify-content: flex-start;
-    border-radius: 10px;
-    transition: all 0.50s ease;
+    border-radius: 0;
+    padding-top: 20px; /* Adjusted padding for content */
+    transition: max-height 0.50s ease-out, opacity 0.50s ease-out;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
   }
+
   .navActive {
-    display: flex;
-    right: 0;
+    max-height: 500px; /* Sufficiently large height when open */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
+
   .navLink {
     display: block;
     margin: 12px 0;
     padding: 0px 25px;
   }
-  .active {
-    color: var(--main-color);
-    background: rgba(0, 255, 136, 0.1);
-  }
   .navLink:hover {
     background: rgba(0, 255, 136, 0.2);
   }
-  .menuIcon {
-    display: block;
-  }
-}
 
-@media (min-width: 769px) {
   .menuIcon {
-    display: none !important;
+    display: block; /* Show menu icon on mobile */
   }
 }
 

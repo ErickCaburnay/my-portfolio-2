@@ -346,7 +346,7 @@ const HeroSection = () => {
                   ease: "easeInOut",
                 }}
               >
-                React
+                HTML
               </motion.div>
 
               <motion.div
@@ -362,7 +362,7 @@ const HeroSection = () => {
                   delay: 1,
                 }}
               >
-                Next.js
+                CSS
               </motion.div>
 
               <motion.div
@@ -378,7 +378,23 @@ const HeroSection = () => {
                   delay: 2,
                 }}
               >
-                Tailwind
+                Javascript
+              </motion.div>
+
+              <motion.div
+                className={`${styles["skill-tag"]} ${styles["skill-tag-4"]}`}
+                animate={{
+                  x: [0, 10, 0],
+                  y: [0, 10, 0],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2,
+                }}
+              >
+                React
               </motion.div>
             </div>
           </div>
