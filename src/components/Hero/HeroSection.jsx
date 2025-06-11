@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import gsap from "gsap";
 import styles from "./Hero.module.css";
@@ -13,6 +12,32 @@ const HeroSection = () => {
   const particlesRef = useRef(null);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [particles, setParticles] = useState([]);
+  const [isClient, setIsClient] = useState(false); // Track client-side hydration
+
+  // Initialize client-side state
+  useEffect(() => {
+    setIsClient(true);
+    const updateWindowSize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    
+    // Set initial window size
+    updateWindowSize();
+    
+    // Add resize listener with debounce
+    let timeoutId;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateWindowSize, 150);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   useEffect(() => {
     const heroElement = heroRef.current;
@@ -38,16 +63,17 @@ const HeroSection = () => {
         repeat: -1,
       });
 
-      gsap.to(heroElement, {
-        yPercent: -25,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroElement,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.5,
-        },
-      });
+      // Removed GSAP scroll animation on heroElement to prevent overlap with header
+      // gsap.to(heroElement, {
+      //   yPercent: -25,
+      //   ease: "none",
+      //   scrollTrigger: {
+      //     trigger: heroElement,
+      //     start: "top bottom",
+      //     end: "bottom top",
+      //     scrub: 1.5,
+      //   },
+      // });
     }
 
     return () => {
@@ -55,82 +81,9 @@ const HeroSection = () => {
     };
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 60, rotateX: -15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        duration: 1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.7, x: 120, rotateY: 25 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      rotateY: 0,
-      transition: {
-        duration: 1.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        delay: 0.3,
-      },
-    },
-  };
-
-  const buttonVariants = {
-    hover: {
-      scale: 1.08,
-      y: -2,
-      boxShadow: "0 20px 40px rgba(0, 255, 136, 0.3)",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    tap: { scale: 0.95 },
-  };
-
-  const socialVariants = {
-    hover: {
-      scale: 1.2,
-      rotate: 15,
-      y: -3,
-      boxShadow: "0 10px 25px rgba(0, 255, 136, 0.4)",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    tap: { scale: 0.9 },
-  };
-
+  // Generate particles only when client-side and when needed
   useEffect(() => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
-
-  useEffect(() => {
-    if (
-      windowSize.width > 0 &&
-      windowSize.height > 0 &&
-      particles.length === 0
-    ) {
+    if (isClient && windowSize.width > 0 && windowSize.height > 0 && particles.length === 0) {
       const newParticles = Array(15)
         .fill(null)
         .map(() => ({
@@ -140,116 +93,92 @@ const HeroSection = () => {
         }));
       setParticles(newParticles);
     }
-  }, [windowSize, particles.length]);
+  }, [isClient, windowSize, particles.length]);
 
-  if (windowSize.width === 0 || windowSize.height === 0) {
-    return null;
-  }
+  // Regenerate particles on significant window size changes
+  useEffect(() => {
+    if (isClient && particles.length > 0) {
+      const updatedParticles = particles.map(p => ({
+        ...p,
+        x: Math.min(p.x, windowSize.width),
+        y: Math.min(p.y, windowSize.height),
+      }));
+      setParticles(updatedParticles);
+    }
+  }, [windowSize.width, windowSize.height, isClient]);
 
   return (
     <div className={styles["hero-section-container"]}>
       <div className={styles["hero-particles"]} ref={particlesRef}>
-        {particles.map((p, i) => (
-          <motion.div
+        {isClient && particles.map((p, i) => (
+          <div
             key={i}
             className={styles.particle}
-            initial={{ x: p.x, y: p.y, scale: p.scale }}
-            animate={{
-              x: Math.random() * windowSize.width,
-              y: Math.random() * windowSize.height,
-              scale: [0.5, 1, 0.5],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: Math.random() * 20 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
           />
         ))}
       </div>
 
-      <motion.div
+      <div
         ref={heroRef}
         className={styles["hero-content-enhanced"]}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
       >
-        <motion.div className={styles["hero-text-enhanced"]} variants={textVariants}>
-          <motion.div className={styles["hero-badge"]} variants={textVariants}>
+        <div className={styles["hero-text-enhanced"]}>
+          <div className={styles["hero-badge"]}>
             <span className={styles["badge-dot"]}></span>
             Available for freelance
-          </motion.div>
+          </div>
 
-          <motion.h3 variants={textVariants} className={styles["hero-greeting"]}>
+          <h3 className={styles["hero-greeting"]}>
             Hello, I'm
-          </motion.h3>
+          </h3>
 
-          <motion.h1 variants={textVariants} className={styles["hero-name"]}>
+          <h1 className={styles["hero-name"]}>
             Erick Jefferson
             <span className={styles["hero-name-highlight"]}>
               <span className={styles["gradient-text"]}>Caburnay</span>
-              <motion.div
+              <div
                 className={styles["name-underline"]}
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1, delay: 1.5 }}
               />
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.div variants={textVariants} className={styles["hero-title-container"]}>
+          <div className={styles["hero-title-container"]}>
             <span className={styles["hero-title-prefix"]}>Creative</span>
-            <motion.span
+            <span
               className={styles["hero-title-main"]}
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
             >
               Web Developer
-            </motion.span>
-          </motion.div>
+            </span>
+          </div>
 
-          <motion.p variants={textVariants} className={styles["hero-description"]}>
+          <p className={styles["hero-description"]}>
             I craft{" "}
             <span className={styles["highlight-text"]}>exceptional digital experiences</span> through innovative web development. Specializing in modern
             frameworks and cutting-edge technologies to bring your vision to life with{" "}
             <span className={styles["highlight-text"]}>pixel-perfect precision</span>.
-          </motion.p>
+          </p>
 
-          <motion.div variants={textVariants} className={styles["hero-buttons"]}>
-            <motion.button
+          <div className={styles["hero-buttons"]}>
+            <button
               className={styles["btn-primary-enhanced"]}
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
             >
               <span className="btn-text">Let's Collaborate</span>
               <span className={styles["btn-icon"]}>
                 <i className="bx bx-right-arrow-alt"></i>
               </span>
-            </motion.button>
+            </button>
 
-            <motion.button
+            <button
               className={styles["btn-secondary-enhanced"]}
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
             >
               <span className="btn-text">View Portfolio</span>
               <span className={styles["btn-icon"]}>
                 <i className="bx bx-folder-open"></i>
               </span>
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
 
-          <motion.div variants={textVariants} className={styles["hero-social-enhanced"]}>
+          <div className={styles["hero-social-enhanced"]}>
             <span className={styles["social-label"]}>Follow me</span>
             <div className={styles["social-links"]}>
               {[
@@ -259,51 +188,27 @@ const HeroSection = () => {
                 { icon: "bxl-instagram-alt", href: "#", color: "#e4405f" },
                 { icon: "bxl-behance", href: "#", color: "#1769ff" },
               ].map((social, index) => (
-                <motion.a
+                <a
                   key={social.icon}
                   href={social.href}
                   className={styles["social-link"]}
-                  variants={socialVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
                   style={{ "--social-color": social.color }}
                 >
                   <i className={`bx ${social.icon}`}></i>
-                </motion.a>
+                </a>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div className={styles["hero-image-enhanced"]} variants={imageVariants}>
+        <div className={styles["hero-image-enhanced"]}>
           <div className={styles["image-container"]} ref={imageRef}>
             <div className={styles["bg-decorations"]}>
-              <motion.div
+              <div
                 className={`${styles["decoration-circle"]} ${styles["decoration-1"]}`}
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 15,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
               />
-              <motion.div
+              <div
                 className={`${styles["decoration-circle"]} ${styles["decoration-2"]}`}
-                animate={{
-                  rotate: [360, 0],
-                  scale: [1.1, 1, 1.1],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
               />
             </div>
 
@@ -320,86 +225,39 @@ const HeroSection = () => {
                 sizes="(max-width: 576px) 280px, (max-width: 968px) 350px, (max-width: 1200px) 400px, 450px"
               />
 
-              <motion.div
+              <div
                 className={styles["floating-badge"]}
-                animate={{
-                  rotate: [0, 360],
-                  y: [-5, 5, -5],
-                }}
-                transition={{
-                  rotate: { duration: 25, repeat: Infinity, ease: "linear" },
-                  y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-                }}
               >
                 <i className="bx bx-code-alt"></i>
-              </motion.div>
+              </div>
 
-              <motion.div
+              <div
                 className={`${styles["skill-tag"]} ${styles["skill-tag-1"]}`}
-                animate={{
-                  x: [0, 10, 0],
-                  y: [0, -10, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
               >
                 HTML
-              </motion.div>
+              </div>
 
-              <motion.div
+              <div
                 className={`${styles["skill-tag"]} ${styles["skill-tag-2"]}`}
-                animate={{
-                  x: [0, -8, 0],
-                  y: [0, 8, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
               >
                 CSS
-              </motion.div>
+              </div>
 
-              <motion.div
+              <div
                 className={`${styles["skill-tag"]} ${styles["skill-tag-3"]}`}
-                animate={{
-                  x: [0, 12, 0],
-                  y: [0, 6, 0],
-                }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
               >
                 Javascript
-              </motion.div>
+              </div>
 
-              <motion.div
+              <div
                 className={`${styles["skill-tag"]} ${styles["skill-tag-4"]}`}
-                animate={{
-                  x: [0, 10, 0],
-                  y: [0, 10, 0],
-                }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
               >
                 React
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

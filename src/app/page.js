@@ -26,11 +26,11 @@ const DynamicHeader = dynamic(() => import("@/components/Header/Header"), { ssr:
 // }
 
 export default function HomePage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 2400);
-    return () => clearTimeout(timer);
+    // const timer = setTimeout(() => setIsLoaded(true), 2400);
+    // return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -167,10 +167,10 @@ export default function HomePage() {
       <GlobalParticles particleCount={30} speed="slow" />
 
       {/* Main content wrapper, ensure higher z-index so particles stay behind */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+      <div
+        // initial={{ opacity: 0 }}
+        // animate={{ opacity: 1 }}
+        // transition={{ duration: 0.5 }}
         className="main-content" 
         style={{ position: "relative", zIndex: 2 }} 
       >
@@ -214,7 +214,7 @@ export default function HomePage() {
       <section>
         <Footer />
         </section>
-    </motion.div>
+    </div>
     </>
   );
 }

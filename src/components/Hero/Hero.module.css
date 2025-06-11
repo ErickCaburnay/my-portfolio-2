@@ -4,6 +4,7 @@
     min-height: 100vh;
     overflow: visible;
     z-index: 0;
+    padding-top: 0;
   }
   
   .hero-particles { /* in JSX, ref only */
@@ -37,8 +38,10 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 120px 1% 50px;
-    min-height: 100vh;
+    padding: 0 1% 50px;
+    min-height: 100%;
+    margin-top: 80px !important;
+    transition: all 0.3s ease;
   }
   
   .hero-text-enhanced {
@@ -126,6 +129,7 @@
     gap: 1rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
+    transition: all 0.3s ease; /* Add smooth transition */
   }
   
   .hero-title-prefix {
@@ -176,7 +180,8 @@
     margin-bottom: 3rem;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Default alignment */
+    transition: all 0.3s ease; /* Add smooth transition */
   }
   
   .btn-primary-enhanced,
@@ -297,6 +302,7 @@
     position: relative;
     max-width: 500px;
     min-width: 0;
+    transition: all 0.3s ease; /* Add smooth transition */
   }
   
   .image-container {
@@ -445,21 +451,35 @@
   
   @media (max-width: 970px) {
     .hero-content-enhanced {
-      flex-direction: column;
+      flex-direction: column !important;
       text-align: center;
-      gap: 2.5rem;
-      padding: 100px 4% 50px;
+      align-items: center !important;
+      justify-content: center !important;
     }
-    .hero-text-enhanced { order: 1; }
-    .hero-image-enhanced { order: 2; margin-top: 2rem; }
-    .hero-title-container, .hero-social-enhanced { justify-content: center; }
+    .hero-text-enhanced {
+      order: 1;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-image-enhanced {
+      order: 2;
+      margin-top: 2rem;
+    }
+    .hero-social-enhanced {
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
     .hero-name { font-size: clamp(3rem, 8vw, 5rem); }
     .image-container { max-width: 350px; }
   }
   
   @media (max-width: 576px) {
     .hero-content-enhanced { padding: 100px 3% 50px; }
-    .hero-buttons { flex-direction: column; align-items: center; }
+    .hero-buttons { flex-direction: column; align-items: center; justify-content: center; }
     .btn-primary-enhanced, .btn-secondary-enhanced { width: 100%; justify-content: center; max-width: 280px; }
     .image-container { max-width: 280px; }
     .skill-tag { display: none; }
