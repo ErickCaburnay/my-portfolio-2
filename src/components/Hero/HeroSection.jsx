@@ -182,11 +182,12 @@ const HeroSection = () => {
             <span className={styles["social-label"]}>Follow me</span>
             <div className={styles["social-links"]}>
               {[
-                { icon: "bxl-github", href: "#", color: "#333" },
-                { icon: "bxl-linkedin", href: "#", color: "#0077b5" },
+                { icon: "bxl-github", href: "https://github.com/ErickCaburnay", color: "#333" },
+                { icon: "bxl-linkedin", href: "www.linkedin.com/in/zibit03", color: "#0077b5" },
+                { icon: "bxl-facebook", href: "https://www.facebook.com/zibit03", color: "#1769ff" },
                 { icon: "bxl-twitter", href: "#", color: "#1da1f2" },
-                { icon: "bxl-instagram-alt", href: "#", color: "#e4405f" },
-                { icon: "bxl-behance", href: "#", color: "#1769ff" },
+                { icon: "bxl-instagram-alt", href: "#", color: "instagram-gradient" },
+                
               ].map((social, index) => (
                 <a
                   key={social.icon}

@@ -485,3 +485,12 @@
     .skill-tag { display: none; }
   }
   
+  .instagram-gradient {
+    font-size: 40px; /* or larger */
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+  
+  

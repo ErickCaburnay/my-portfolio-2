@@ -145,7 +145,7 @@ const AboutSection = () => {
           </motion.a>
 
           <motion.a
-            href="/resume.pdf"
+            href="/CV.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className={`${styles.btn} bg-transparent border-2 border-primary ${styles["text-primary"]} hover:bg-primary hover:text-bg`}
